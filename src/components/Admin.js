@@ -1,12 +1,9 @@
 import React,{useState,useEffect} from 'react'
 import axios from 'axios'
 import Table from './Table'
-import Pagination from "./Pagination";
 
 const Admin = (props) => {
     const [jobData, setJobData] = useState([])
-    const [currentPage, setCurrentPage] = useState(1)
-    const [postPerPage] = useState(10)
     const [loading, setLoading] = useState(false)
     
     //get's all the jobData
@@ -77,14 +74,6 @@ const Admin = (props) => {
             alert(err.message)
         })  
     }
-
-     //get current post
-     const indexOfLastPost = currentPage * postPerPage
-     const indexofFirstPost=indexOfLastPost-postPerPage
-     const currentPosts = jobData.slice(indexofFirstPost, indexOfLastPost)
-     
-     //change page
-    const paginate = pageNumber => setCurrentPage(pageNumber)
     
     return (
         <div className='mt-2'>
@@ -97,12 +86,7 @@ const Admin = (props) => {
             </div>
             {loading ? (<>
                 <h3>Total Applications : { jobData.length}</h3>
-                <Table data={currentPosts} toggle={setJobData} />
-                <Pagination postsPerPage={postPerPage}
-                    totalPosts={jobData.length} paginate={paginate}
-                    currentPage={currentPage}
-                    setCurrentPage={setCurrentPage}
-                />
+                <Table data={jobData} toggle={setJobData} />
             </>) :'loading....' }
             
         </div>
